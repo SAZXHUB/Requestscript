@@ -38,7 +38,7 @@ document.getElementById("messageForm").addEventListener("submit", function(event
 
     // Save the message to logs.txt
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "log.php", true);
+    xhr.open("POST", "logs.txt", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send("message=" + encodeURIComponent(message));
   } else {
