@@ -3,37 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>send request script map</title>
+<title>Send Request Script Map</title>
 </head>
 <body>
-<h1>send requests script map </h1>
+<h1>Send Requests Script Map</h1>
 
 <form id="messageForm">
-  <label for="message">add messages:</label><br>
+  <label for="message">Add message:</label><br>
   <input type="text" id="message" name="message"><br>
-  <button type="submit">request</button>
+  <button type="submit">Request</button>
 </form>
 
-<h2>send logs:</h2>
+<h2>Send Logs:</h2>
 <ul id="messageList">
-  <!--send massage here-->
+  <!--Messages will appear here-->
 </ul>
+
+<h2>Logs:</h2>
+<iframe id="logFrame" src="log.txt" style="width:100%;height:200px;border:1px solid #ccc;"></iframe>
 
 <script>
 document.getElementById("messageForm").addEventListener("submit", function(event) {
-  event.preventDefault(); // ไม่ให้ฟอร์มส่งข้อมูล
+  event.preventDefault(); // Prevent form submission
   var messageInput = document.getElementById("message");
-  var message = messageInput.value; // ข้อความที่ผู้ใช้ป้อน
-  if (message.trim() !== "") { // ตรวจสอบว่าข้อความไม่ว่างเปล่า
+  var message = messageInput.value; // Message entered by the user
+  if (message.trim() !== "") { // Check if message is not empty
     var listItem = document.createElement("li");
     var boldText = document.createElement("b");
-    boldText.textContent = message; // ข้อความที่ผู้ใช้ป้อน
+    boldText.textContent = message; // Message entered by the user
     listItem.appendChild(boldText);
     var messageList = document.getElementById("messageList");
-    messageList.insertBefore(listItem, messageList.childNodes[0]); // เพิ่มข้อความที่บันทึกไว้ล่าสุดด้านบน
-    messageInput.value = ""; // clear
+    messageList.insertBefore(listItem, messageList.childNodes[0]); // Add the latest message at the top
+    messageInput.value = ""; // Clear the message input field
+
+    // Save the message to logs.txt
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "log.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send("message=" + encodeURIComponent(message));
   } else {
-    alert("please add messages");
+    alert("Please enter a message");
   }
 });
 </script>
