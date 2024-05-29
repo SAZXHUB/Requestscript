@@ -1,51 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Send Request Script Map</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Text</title>
 </head>
 <body>
-<h1>Send Requests Script Map</h1>
+    <form id="textForm" action="https://requestscript.github.io/submit" method="post">
+        <label for="textInput">Enter your text:</label>
+        <input type="text" id="textInput" name="textInput" required>
+        <button type="submit">Submit</button>
+    </form>
 
-<form id="messageForm">
-  <label for="message">Add message:</label><br>
-  <input type="text" id="message" name="message"><br>
-  <button type="submit">Request</button>
-</form>
+    <div id="logContainer">
+        <h2>Logs:</h2>
+        <pre id="logsList"></pre>
+    </div>
 
-<h2>Send Logs:</h2>
-<ul id="messageList">
-  <!--Messages will appear here-->
-</ul>
+    <script>
+        async function fetchLogs() {
+            const response = await fetch('https://requestscript.github.io/logs');
+            const logs = await response.text();
+            document.getElementById('logsList').textContent = logs;
+        }
 
-<h2>Logs:</h2>
-<iframe id="logFrame" src="logs.txt" style="width:100%;height:200px;border:1px solid #ccc;"></iframe>
+        document.getElementById('textForm').addEventListener('submit', function(event) {
+            event.preventDefault();
 
-<script>
-document.getElementById("messageForm").addEventListener("submit", function(event) {
-  event.preventDefault(); // Prevent form submission
-  var messageInput = document.getElementById("message");
-  var message = messageInput.value; // Message entered by the user
-  if (message.trim() !== "") { // Check if message is not empty
-    var listItem = document.createElement("li");
-    var boldText = document.createElement("b");
-    boldText.textContent = message; // Message entered by the user
-    listItem.appendChild(boldText);
-    var messageList = document.getElementById("messageList");
-    messageList.insertBefore(listItem, messageList.childNodes[0]); // Add the latest message at the top
-    messageInput.value = ""; // Clear the message input field
+            const form = event.target;
+            const formData = new FormData(form);
 
-    // Save the message to logs.txt
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "logs.txt", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send("message=" + encodeURIComponent(message));
-  } else {
-    alert("Please enter a message");
-  }
-});
-</script>
+            fetch(form.action, {
+                method: form.method,
+                body: formData
+            }).then(() => {
+                fetchLogs();
+                form.reset();
+            }).catch(error => console.error('Error:', error));
+        });
 
+        // ดึง logs เมื่อโหลดหน้าเว็บ
+        fetchLogs();
+    </script>
 </body>
 </html>
