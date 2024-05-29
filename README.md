@@ -6,7 +6,7 @@
     <title>request map script</title>
 </head>
 <body>
-    <h1>บันทึกและแสดงข้อความ</h1>
+    <h1>request map script!</h1>
     <textarea id="textInput" rows="4" cols="50" placeholder="send my message here..."></textarea>
     <br>
     <button onclick="saveText()">done</button>
@@ -17,7 +17,7 @@
         function saveText() {
             var text = document.getElementById("textInput").value; // เก็บข้อความจาก textarea
             localStorage.setItem("savedText", text); // บันทึกข้อความลงใน localStorage
-            alert("บันทึกข้อความเรียบร้อยแล้ว!");
+            alert("done!");
         }
 
         // ฟังก์ชันที่ใช้ในการแสดงข้อความที่บันทึกไว้
