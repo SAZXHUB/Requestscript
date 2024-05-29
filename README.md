@@ -1,34 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>request map script</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>send request script map</title>
 </head>
 <body>
-    <h1>request map script!</h1>
-    <textarea id="textInput" rows="4" cols="50" placeholder="send my message here..."></textarea>
-    <br>
-    <button onclick="saveText()">done</button>
-    <p id="savedText"></p>
+<h1>send requests script map </h1>
 
-    <script>
-        // ฟังก์ชันที่ใช้ในการบันทึกข้อความ
-        function saveText() {
-            var text = document.getElementById("textInput").value; // เก็บข้อความจาก textarea
-            localStorage.setItem("savedText", text); // บันทึกข้อความลงใน localStorage
-            alert("done!");
-        }
+<form id="messageForm">
+  <label for="message">add messages:</label><br>
+  <input type="text" id="message" name="message"><br>
+  <button type="submit">request</button>
+</form>
 
-        // ฟังก์ชันที่ใช้ในการแสดงข้อความที่บันทึกไว้
-        function loadText() {
-            var text = localStorage.getItem("savedText"); // ดึงข้อความที่บันทึกไว้จาก localStorage
-            var output = document.getElementById("savedText"); // เลือก element ที่ใช้แสดงข้อความ
-            output.innerHTML = text; // แสดงข้อความที่บันทึกไว้
-        }
+<h2>send logs:</h2>
+<ul id="messageList">
+  <!--send massage here-->
+</ul>
 
-        // เรียกใช้ฟังก์ชันเมื่อเปิดหน้าเว็บ
-        window.onload = loadText;
-    </script>
+<script>
+document.getElementById("messageForm").addEventListener("submit", function(event) {
+  event.preventDefault(); // ไม่ให้ฟอร์มส่งข้อมูล
+  var messageInput = document.getElementById("message");
+  var message = messageInput.value; // ข้อความที่ผู้ใช้ป้อน
+  if (message.trim() !== "") { // ตรวจสอบว่าข้อความไม่ว่างเปล่า
+    var listItem = document.createElement("li");
+    var boldText = document.createElement("b");
+    boldText.textContent = message; // ข้อความที่ผู้ใช้ป้อน
+    listItem.appendChild(boldText);
+    var messageList = document.getElementById("messageList");
+    messageList.insertBefore(listItem, messageList.childNodes[0]); // เพิ่มข้อความที่บันทึกไว้ล่าสุดด้านบน
+    messageInput.value = ""; // clear
+  } else {
+    alert("please add messages");
+  }
+});
+</script>
+
 </body>
 </html>
