@@ -20,7 +20,7 @@
 </ul>
 
 <h2>Logs:</h2>
-<iframe id="logFrame" src="log.txt" style="width:100%;height:200px;border:1px solid #ccc;"></iframe>
+<iframe id="logFrame" src="logs.txt" style="width:100%;height:200px;border:1px solid #ccc;"></iframe>
 
 <script>
 document.getElementById("messageForm").addEventListener("submit", function(event) {
